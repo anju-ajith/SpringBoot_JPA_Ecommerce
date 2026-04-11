@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zxx" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+<title>Product Details | BabyBloom</title>
+
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<link rel="stylesheet" href="css/elegant-icons.css">
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body th:data-user="${#authorization.expression('hasAuthority(''CUSTOMER'')')}">
+
+	<!-- Header Section Begin -->
+	<header class="header">
+		<div class="container-fluid">
+			<div class="row">
+
+				<div class="col-xl-3 col-lg-2">
+					<div class="header__logo">
+						<a href="/"><img src="img/BabyBloom.png"></a>
+					</div>
+				</div>
+
+				<div class="col-xl-6 col-lg-7">
+					<nav class="header__menu">
+						<ul>
+							<li><a href="/">Home</a></li>
+							<li><a href="/shopNowNewborn">NEWBORN</a>
+								<ul class="dropdown">
+									<li><a href="/newbornFashionType?type=SleepSuits">Sleepsuits</a></li>
+									<li><a href="/newbornFashionType?type=Romper">Rompers</a></li>
+									<li><a href="/newbornFashionType?type=BabySets">Baby
+											Sets</a></li>
+
+
+								</ul></li>
+							<li><a href="/shopNowBoysFashion">BOY FASHION</a>
+								<ul class="dropdown">
+									<li><a href="/boysFashionType?type=T-Shirts">T-Shirts</a></li>
+									<li><a href="/boysFashionType?type=Shirts">Shirts</a></li>
+									<li><a href="/boysFashionType?type=PantsBottomWear">Pants
+											& Bottom Wear</a></li>
+
+								</ul></li>
+							<li><a href="/shopNowGirlsFashion">GIRL FASHION</a>
+								<ul class="dropdown">
+									<li><a href="/girlsFashionType?type=Dresses">Dresses</a></li>
+									<li><a href="/girlsFashionType?type=Tops/T-Shirts">Tops
+											/ T-Shirts</a></li>
+									<li><a href="/girlsFashionType?type=Skirts">Skirts</a></li>
+									<li><a href="/girlsFashionType?type=PantsLeggings">Pants
+											& Leggings</a></li>
+
+								</ul></li>
+
+							<li><a href="/contacts">Contact</a></li>
+						</ul>
+					</nav>
+				</div>
+
+				<div class="col-lg-3">
+					<div class="header__right">
+						<div class="header__right__auth">
+							<th:block
+								th:if="${#authorization.expression('!hasAuthority(''CUSTOMER'')')}">
+								<a href="/userLoginPage">Login /</a>
+								<a href="/userRegistration">Register</a>
+							</th:block>
+
+							<ul class="header__right__widget">
+								<th:block
+									th:if="${#authorization.expression('hasAuthority(''CUSTOMER'')')}">
+									<li class="account-menu"><a href="#">My Account</a> <!-- If user logged in -->
+										<ul class="account-dropdown">
+											<li><a href="/userProfile">My Profile</a></li>
+											<li><a href="/userOrderHistory">Order History</a></li>
+											<li><a href="#"
+												onclick="document.getElementById('logoutForm').submit(); return false;">
+													Logout </a>
+
+												<form id="logoutForm" th:action="@{/logout}" method="post"
+													style="display: none;"></form></li>
+										</ul></li>
+								</th:block>
+
+								<li><a href="/wishlistpage"><span
+										class="icon_heart_alt"></span>
+										<div class="tip" th:text="${wishlistCount}">0</div> </a></li>
+								<li><a href="/cart"><span class="icon_bag_alt"></span>
+										<div class="tip" th:text="${cartCount}" id="shoppingCart">0</div>
+								</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</header>
+
+	<!-- Header End -->
+
+
+
+	<!-- Breadcrumb -->
+	<div class="breadcrumb-option">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+
+					<div class="breadcrumb__links">
+						<a href="/"><i class="fa fa-home"></i> Home</a> <span>Product
+							Details</span>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Product Details Section -->
+	<section class="product-details spad">
+		<div class="container">
+
+			<div class="row">
+
+				<!-- Product Image -->
+				<div class="col-lg-3">
+
+					<div class="product__details__pic">
+						<img th:src="@{${product.imageurl}}">
+					</div>
+
+				</div>
+
+
+				<!-- Product Information -->
+				<div class="col-lg-6">
+
+					<div class="product__details__text">
+
+						<h3 th:text="${product.product_name}"></h3>
+
+						<div class="product__details__price">
+							₹ <span th:text="${product.price}"></span>
+						</div>
+
+						<p th:text="${product.description}"></p>
+
+
+
+						<!-- Action Buttons -->
+						<div class="product__details__button">
+
+							<a> <span class="site-btn" onclick="addToCart(this)"
+								th:data-id="${product.product_id}"> Move to Cart </span>
+
+
+							</a>
+
+						</div>
+
+						<div class="product__details__widget">
+							<ul>
+								<li><span>Availability:</span>
+									<div class="stock__checkbox">
+										<label for="stockin"> In Stock </label>
+									</div></li>
+								<li><span>Available color:</span>
+									<div class="color__checkbox">
+										<label th:text="${product.color}"> </label>
+
+									</div></li>
+								<li><span>Available size:</span>
+									<div class="size__btn">
+										<label th:text="${product.size}"> </label>
+
+									</div></li>
+								<li><span>Promotions:</span>
+									<p>Free shipping</p></li>
+							</ul>
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+	</section>
+
+
+
+	<!-- Footer -->
+	<footer class="footer">
+		<div class="container">
+			<div class="footer__copyright__text">
+				<p>
+					©
+					<script>
+						document.write(new Date().getFullYear());
+					</script>
+					BabyBloom. All rights reserved.
+				</p>
+			</div>
+		</div>
+	</footer>
+
+
+
+	<script src="js/jquery-3.3.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/main.js"></script>
+
+</body>
+</html>

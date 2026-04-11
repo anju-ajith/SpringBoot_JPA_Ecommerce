@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="zxx" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Ashion Template">
+<meta name="keywords" content="Ashion, unica, creative, html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+<title>Baby Clothing Online:Baby Bloom</title>
+
+<!-- Google Font -->
+<link
+	href="https://fonts.googleapis.com/css2?family=Cookie&display=swap"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+	rel="stylesheet">
+
+<!-- Css Styles -->
+<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
+<link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
+<link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
+<link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
+<link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
+<link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
+<link rel="stylesheet" href="css/style.css" type="text/css">
+</head>
+
+<body th:data-user="${#authorization.expression('hasAuthority(''CUSTOMER'')')}">
+	<!-- Page Preloder -->
+	<div id="preloder">
+		<div class="loader"></div>
+	</div>
+
+	<!-- Offcanvas Menu Begin -->
+	<div class="offcanvas-menu-overlay"></div>
+	<div class="offcanvas-menu-wrapper">
+		<div class="offcanvas__close">+</div>
+		<ul class="offcanvas__widget">
+			<li><span class="icon_search search-switch"></span></li>
+			<li><a href="#"><span class="icon_heart_alt"></span>
+					<div class="tip">2</div> </a></li>
+			<li><a href="/cart"><span class="icon_bag_alt"></span>
+					<div class="tip">2</div> </a></li>
+		</ul>
+		<div class="offcanvas__logo">
+			<a href="/"><img src="img/BabyBloom.png" alt=""></a>
+		</div>
+		<div id="mobile-menu-wrap"></div>
+		<div class="offcanvas__auth">
+			<a href="#">Login</a> <a href="#">Register</a>
+		</div>
+	</div>
+	<!-- Offcanvas Menu End -->
+
+	<!-- Header Section Begin -->
+	<header class="header">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xl-3 col-lg-2">
+					<div class="header__logo">
+						<a href="/"><img src="img/BabyBloom.png" alt=""></a>
+					</div>
+				</div>
+				<div class="col-xl-6 col-lg-7">
+					<nav class="header__menu">
+						<ul>
+							<li><a href="/">Home</a></li>
+							<li><a href="/shopNowNewborn">NEWBORN</a>
+								<ul class="dropdown">
+									<li><a href="/newbornFashionType?type=SleepSuits">Sleepsuits</a></li>
+									<li><a href="/newbornFashionType?type=Romper">Rompers</a></li>
+									<li><a href="/newbornFashionType?type=BabySets">Baby
+											Sets</a></li>
+
+								</ul></li>
+							<li><a href="/shopNowBoysFashion">BOY FASHION</a>
+								<ul class="dropdown">
+									<li><a href="/boysFashionType?type=T-Shirts">T-Shirts</a></li>
+									<li><a href="/boysFashionType?type=Shirts">Shirts</a></li>
+									<li><a href="/boysFashionType?type=PantsBottomWear">Pants
+											& Bottom Wear</a></li>
+
+
+								</ul></li>
+							<li><a href="/shopNowGirlsFashion">GIRL FASHION</a>
+								<ul class="dropdown">
+									<li><a href="/girlsFashionType?type=Dresses">Dresses</a></li>
+									<li><a href="/girlsFashionType?type=Tops/T-Shirts">Tops
+											/ T-Shirts</a></li>
+									<li><a href="/girlsFashionType?type=Skirts">Skirts</a></li>
+									<li><a href="/girlsFashionType?type=PantsLeggings">Pants
+											& Leggings</a></li>
+
+								</ul></li>
+
+							<li><a href="/contacts">Contact</a></li>
+						</ul>
+
+					</nav>
+				</div>
+				<div class="col-lg-3">
+					<div class="header__right">
+						<div class="header__right__auth">
+							<th:block
+								th:if="${#authorization.expression('!hasAuthority(''CUSTOMER'')')}">
+								<a href="/userLoginPage">Login /</a>
+								<a href="/userRegistration">Register</a>
+							</th:block>
+
+							<ul class="header__right__widget">
+								<th:block
+									th:if="${#authorization.expression('hasAuthority(''CUSTOMER'')')}">
+									<li class="account-menu"><a href="#">My
+											Account</a> <!-- If user logged in -->
+										<ul class="account-dropdown">
+											<li><a href="/userProfile">My Profile</a></li>
+											<li><a href="/userOrderHistory">Order History</a></li>
+											<li><a href="#"
+												onclick="document.getElementById('logoutForm').submit(); return false;">
+													Logout </a>
+
+												<form id="logoutForm" th:action="@{/logout}" method="post"
+													style="display: none;"></form></li>
+										</ul></li>
+								</th:block>
+
+								<li><a href="/wishlistpage"><span
+										class="icon_heart_alt"></span>
+										<div class="tip" th:text="${wishlistCount}"
+											id="wishlist_count">0</div> </a></li>
+								<li><a href="/cart"><span class="icon_bag_alt"></span>
+										<div class="tip" th:text="${cartCount}" id="shoppingCart">0</div>
+								</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="canvas__open">
+				<i class="fa fa-bars"></i>
+			</div>
+		</div>
+	</header>
+	<!-- Header Section End -->
+
+	<!-- Breadcrumb Begin -->
+	<div class="breadcrumb-option">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="breadcrumb__links">
+						<a href="/"><i class="fa fa-home"></i> Home</a> <span>Shop</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Breadcrumb End -->
+
+	<!-- Shop Section Begin -->
+	<section class="shop spad">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 col-md-3">
+					<div class="shop__sidebar">
+
+						<form th:action="@{/filterProducts}" method="get">
+
+
+							<div class="sidebar__filter">
+								<div class="section-title">
+									<h4>Shop by price</h4>
+								</div>
+								<div class="filter-range-wrap">
+									<div
+										class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
+										data-min="100" data-max="1000"></div>
+									<div class="range-slider">
+										<div class="price-input">
+											<p>Price:</p>
+											<input type="text" id="minamount" readonly> <input
+												type="text" id="maxamount" readonly> <input
+												type="hidden" name="min" id="minPrice"
+												th:value="${param.min != null ? param.min : 100}"> <input
+												type="hidden" name="max" id="maxPrice"
+												th:value="${param.max != null ? param.max : 1000}">
+										</div>
+									</div>
+								</div>
+								<!-- <a href="#">Filter</a> -->
+							</div>
+
+							<div class="sidebar__color">
+								<div class="section-title">
+									<h4>Shop by color</h4>
+								</div>
+								<div class="size__list color__list">
+
+									<label> Whites <input type="checkbox" name="color"
+										value="white"
+										th:checked="${param.color != null and #lists.contains(param.color, 'white')}"
+										id="white"> <span class="checkmark"></span>
+									</label> <label> Greys <input type="checkbox" name="color"
+										value="grey"
+										th:checked="${param.color != null and #lists.contains(param.color, 'grey')}"
+										id="grey"> <span class="checkmark"></span>
+									</label> <label> Blues <input type="checkbox" name="color"
+										value="blue"
+										th:checked="${param.color != null and #lists.contains(param.color, 'blue')}"
+										id="blue"> <span class="checkmark"></span>
+									</label> <label> Pink Tones <input type="checkbox" name="color"
+										value="pink"
+										th:checked="${param.color != null and #lists.contains(param.color, 'pink')}"
+										id="pink"> <span class="checkmark"></span>
+									</label> <label> Greens <input type="checkbox" name="color"
+										value="green"
+										th:checked="${param.color != null and #lists.contains(param.color, 'green')}"
+										id="green"> <span class="checkmark"></span>
+									</label> <label> Yellows <input type="checkbox" name="color"
+										value="yellow"
+										th:checked="${param.color != null and #lists.contains(param.color, 'yellow')}"
+										id="yellow"> <span class="checkmark"></span>
+									</label>
+								</div>
+							</div>
+							<button type="submit" class="site-btn" style="margin-top: 15px;">
+								Filter</button>
+						</form>
+					</div>
+				</div>
+
+				<!--   product section -->
+
+				<div class="col-lg-9 col-md-9">
+					<div class="row">
+						<div th:if="${products == null or #lists.isEmpty(products)}"
+							style="margin-left: 250px;">
+							<span>No Products to show</span>
+						</div>
+
+
+						<div class="col-lg-4 col-md-6" th:each="product : ${products}">
+							<div class="product__item">
+
+								<div class="product__item__pic set-bg"
+									th:attr="data-setbg=${product.imageurl}">
+
+									<div class="stock-overlay" th:if="${product.stock == 0}">
+										Out of Stock</div>
+
+									<ul class="product__hover" th:if="${product.stock > 0}">
+										<li><a th:href="${product.imageurl}" class="image-popup">
+												<span class="arrow_expand"></span>
+										</a></li>
+
+										<li><a> <span
+												th:class="${wishlistIds != null and #lists.contains(wishlistIds, product.product_id) ? 'icon_heart' : 'icon_heart_alt'}"
+												onclick="addToWishlist(this)"
+												th:data-id="${product.product_id}"> </span>
+										</a></li>
+
+										<li><a> <span class="icon_bag_alt"
+												onclick="addToCart(this)" th:data-id="${product.product_id}"></span>
+										</a></li>
+									</ul>
+
+								</div>
+
+								<div class="product__item__text">
+									<h6>
+										<a th:if="${product.stock > 0}"
+											th:href="@{/getproductDetailsPage(id=${product.product_id})}"
+											th:text="${product.product_name}"></a> <span
+											th:if="${product.stock == 0}"
+											th:text="${product.product_name}" class="disabled-text">
+										</span>
+									</h6>
+
+									<div class="product__price">
+										₹ <span th:text="${product.price}"></span>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+					<!-- 					<div class="pagination__option">
+
+				Previous Button
+				<a th:if="${currentPage > 0}"
+					th:href="@{/shopNowNewborn(page=${currentPage - 1})}"> <i
+					class="fa fa-angle-left"></i>
+				</a>
+
+				Page Numbers
+				<a th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+					th:href="@{/shopNowNewborn(page=${i})}" th:text="${i + 1}"
+					th:classappend="${i == currentPage} ? 'active'"> </a>
+
+				Next Button
+				<a th:if="${currentPage < totalPages - 1}"
+					th:href="@{/shopNowNewborn(page=${currentPage + 1})}"> <i
+					class="fa fa-angle-right"></i>
+				</a>
+
+			</div> -->
+
+				</div>
+			</div>
+
+
+
+		</div>
+
+
+	</section>
+	<!-- Shop Section End -->
+
+
+
+
+	<!-- Instagram Begin -->
+	<div class="instagram">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-2 col-md-4 col-sm-4 p-0">
+					<div class="instagram__item set-bg"
+						data-setbg="img/instagram/insta-1.jpg">
+						<div class="instagram__text">
+							<i class="fa fa-instagram"></i> <a href="#">@ babybloom_shop</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-2 col-md-4 col-sm-4 p-0">
+					<div class="instagram__item set-bg"
+						data-setbg="img/instagram/insta-2.jpg">
+						<div class="instagram__text">
+							<i class="fa fa-instagram"></i> <a href="#">@ babybloom_shop</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-2 col-md-4 col-sm-4 p-0">
+					<div class="instagram__item set-bg"
+						data-setbg="img/instagram/insta-3.jpg">
+						<div class="instagram__text">
+							<i class="fa fa-instagram"></i> <a href="#">@ babybloom_shop</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-2 col-md-4 col-sm-4 p-0">
+					<div class="instagram__item set-bg"
+						data-setbg="img/instagram/insta-4.jpg">
+						<div class="instagram__text">
+							<i class="fa fa-instagram"></i> <a href="#">@ babybloom_shop</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-2 col-md-4 col-sm-4 p-0">
+					<div class="instagram__item set-bg"
+						data-setbg="img/instagram/insta-5.jpg">
+						<div class="instagram__text">
+							<i class="fa fa-instagram"></i> <a href="#">@ babybloom_shop</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-2 col-md-4 col-sm-4 p-0">
+					<div class="instagram__item set-bg"
+						data-setbg="img/instagram/insta-6.jpg">
+						<div class="instagram__text">
+							<i class="fa fa-instagram"></i> <a href="#">@ babybloom_shop</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Instagram End -->
+
+	<!-- Footer Section Begin -->
+	<footer class="footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-4 col-md-6 col-sm-7">
+					<div class="footer__about">
+						<div class="footer__logo">
+							<a href="/"><img src="img/BabyBloom.png" alt=""></a>
+						</div>
+						<p>we create soft and stylish baby clothing that keeps your
+							little one cozy and happy.</p>
+						<div class="footer__payment">
+							<a href="#"><img src="img/payment/payment-1.png" alt=""></a>
+							<a href="#"><img src="img/payment/payment-2.png" alt=""></a>
+							<a href="#"><img src="img/payment/payment-3.png" alt=""></a>
+							<a href="#"><img src="img/payment/payment-4.png" alt=""></a>
+							<a href="#"><img src="img/payment/payment-5.png" alt=""></a>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-2 col-md-3 col-sm-5">
+					<div class="footer__widget">
+						<h6>Quick links</h6>
+						<ul>
+							<li><a href="#">About</a></li>
+							<li><a href="#">Blogs</a></li>
+							<li><a href="#">Contact</a></li>
+							<li><a href="#">FAQ</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-lg-2 col-md-3 col-sm-4">
+					<div class="footer__widget">
+						<h6>Account</h6>
+						<ul>
+							<li><a href="#">My Account</a></li>
+							<li><a href="#">Orders Tracking</a></li>
+							<li><a href="#">Checkout</a></li>
+							<li><a href="#">Wishlist</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-8 col-sm-8">
+					<div class="footer__newslatter">
+						<h6>NEWSLETTER</h6>
+						<form action="#">
+							<input type="text" placeholder="Email">
+							<button type="submit" class="site-btn">Subscribe</button>
+						</form>
+						<div class="footer__social">
+							<a href="#"><i class="fa fa-facebook"></i></a> <a href="#"><i
+								class="fa fa-twitter"></i></a> <a href="#"><i
+								class="fa fa-youtube-play"></i></a> <a href="#"><i
+								class="fa fa-instagram"></i></a> <a href="#"><i
+								class="fa fa-pinterest"></i></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+					<div class="footer__copyright__text">
+						<p>
+							Copyright &copy;
+							<script>
+								document.write(new Date().getFullYear());
+							</script>
+							All rights reserved | This template is made with <i
+								class="fa fa-heart" aria-hidden="true"></i> by <a
+								href="https://colorlib.com" target="_blank">Colorlib</a>
+						</p>
+					</div>
+					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+				</div>
+			</div>
+		</div>
+	</footer>
+	<!-- Footer Section End -->
+
+	<!-- Search Begin -->
+	<div class="search-model">
+		<div class="h-100 d-flex align-items-center justify-content-center">
+			<div class="search-close-switch">+</div>
+			<form class="search-model-form">
+				<input type="text" id="search-input" placeholder="Search here.....">
+			</form>
+		</div>
+	</div>
+	<!-- Search End -->
+
+
+	<div id="cartToast" class="cart-toast">Item added to cart ✅</div>
+
+	<!-- Js Plugins -->
+	<script src="js/jquery-3.3.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery.magnific-popup.min.js"></script>
+	<script src="js/jquery-ui.min.js"></script>
+	<script src="js/mixitup.min.js"></script>
+	<script src="js/jquery.countdown.min.js"></script>
+	<script src="js/jquery.slicknav.js"></script>
+	<script src="js/owl.carousel.min.js"></script>
+	<script src="js/jquery.nicescroll.min.js"></script>
+	<script src="js/main.js"></script>
+</body>
+
+</html>

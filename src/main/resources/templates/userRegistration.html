@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Register | BabyBloom</title>
+
+<link rel="stylesheet" href="css/bootstrap.min.css">
+
+<style>
+
+body{
+    background:#f8f8f8;
+    font-family: Arial;
+}
+
+.register-section{
+    padding:80px 0;
+}
+
+.register-card{
+    width:500px;
+    background:white;
+    padding:40px;
+    border-radius:8px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+.register-title{
+    font-size:28px;
+    font-weight:600;
+    margin-bottom:25px;
+}
+
+.form-control{
+    margin-bottom:15px;
+}
+
+.site-btn{
+    background:#ff6b6b;
+    border:none;
+    color:white;
+    padding:10px 25px;
+    width:100%;
+}
+
+.login-link{
+    margin-top:15px;
+    text-align:center;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<section class="register-section">
+<div class="container">
+<div class="row justify-content-center">
+
+<div class="col-lg-4">
+<div class="register-card">
+
+<h3 class="register-title">Register</h3>
+
+<form  th:action="@{/registerUser}" th:object="${user}" method="post">
+
+<input type="text" class="form-control" placeholder="Full Name" th:field="*{name}" required>
+
+<input type="email" class="form-control" placeholder="Email Address" th:field="*{email}" required>
+<input type="number" class="form-control" placeholder="Your MobileNo" th:field="*{mobile}" required>
+<label>Gender</label>
+  <div style="margin-bottom:15px;">
+    <input type="radio" th:field="*{gender}" value="Male"> Male
+    <input type="radio" th:field="*{gender}"  value="Female" style="margin-left:15px;"> Female
+</div>
+
+<textarea class="form-control" th:field="*{address}" placeholder="Address" rows="3" required></textarea>
+
+<input type="password" class="form-control" placeholder="Password" th:field="*{password}" required>
+<button type="submit" class="site-btn">Register</button>
+
+</form>
+
+<div class="login-link">
+Already have an account? <a href="/userLoginPage">Login</a>
+</div>
+
+</div>
+</div>
+
+</div>
+</div>
+</section>
+
+</body>
+</html>

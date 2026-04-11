@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zxx" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order History | BabyBloom</title>
+
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<link rel="stylesheet" href="css/elegant-icons.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+	<!-- Header -->
+	<header class="header">
+		<div class="container-fluid">
+			<div class="row">
+
+				<div class="col-xl-3 col-lg-2">
+					<div class="header__logo">
+						<a href="/"><img src="img/BabyBloom.png"></a>
+					</div>
+				</div>
+
+				<div class="col-xl-6 col-lg-7">
+					<nav class="header__menu">
+						<ul>
+
+							<li><a href="/">Home</a></li>
+							<li><a href="/shopNowNewborn">NEWBORN</a>
+								<ul class="dropdown">
+									<li><a href="/newbornFashionType?type=SleepSuits">Sleepsuits</a></li>
+									<li><a href="/newbornFashionType?type=Romper">Rompers</a></li>
+									<li><a href="/newbornFashionType?type=BabySets">Baby
+											Sets</a></li>
+
+
+								</ul></li>
+							<li><a href="/shopNowBoysFashion">BOY FASHION</a>
+								<ul class="dropdown">
+									<li><a href="/boysFashionType?type=T-Shirts">T-Shirts</a></li>
+									<li><a href="/boysFashionType?type=Shirts">Shirts</a></li>
+									<li><a href="/boysFashionType?type=PantsBottomWear">Pants
+											& Bottom Wear</a></li>
+
+								</ul></li>
+							<li><a href="/shopNowGirlsFashion">GIRL FASHION</a>
+								<ul class="dropdown">
+									<li><a href="/girlsFashionType?type=Dresses">Dresses</a></li>
+									<li><a href="/girlsFashionType?type=Tops/T-Shirts">Tops
+											/ T-Shirts</a></li>
+									<li><a href="/girlsFashionType?type=Skirts">Skirts</a></li>
+									<li><a href="/girlsFashionType?type=PantsLeggings">Pants
+											& Leggings</a></li>
+
+								</ul></li>
+
+							<li><a href="/contacts">Contact</a></li>
+						</ul>
+					</nav>
+				</div>
+				<div class="col-lg-3">
+					<div class="header__right">
+						<div class="header__right__auth">
+
+							<ul class="header__right__widget">
+								<li class="account-menu"><a
+									href="#">My Account</a> <!-- If user logged in -->
+									<ul class="account-dropdown">
+										<li><a href="/userProfile">My Profile</a></li>
+										<li><a href="/userOrderHistory">Order History</a></li>
+											<li><a href="#"
+											onclick="document.getElementById('logoutForm').submit(); return false;">
+												Logout </a>
+
+											<form id="logoutForm" th:action="@{/logout}" method="post"
+												style="display: none;"></form>
+												</li>
+									</ul></li>
+								
+								<li><a href="/wishlistpage"><span
+										class="icon_heart_alt"></span>
+										<div class="tip" th:text="${wishlistCount}" >0</div> </a></li>
+								<li><a href="/cart"><span class="icon_bag_alt"></span>
+										<div class="tip" th:text="${cartCount}" >0</div> </a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</header>
+
+
+	<!-- Breadcrumb -->
+	<div class="breadcrumb-option">
+		<div class="container">
+			<div class="breadcrumb__links">
+				<a href="/"><i class="fa fa-home"></i> Home</a> <span>Order
+					History</span>
+			</div>
+		</div>
+	</div>
+	<section class="shop spad">
+		<div class="container">
+
+			<div class="section-title text-center">
+				<h4>My Orders</h4>
+			</div>
+
+			<!-- Check if user has orders -->
+			<div th:if="${#lists.isEmpty(orders)}" class="text-center p-5">
+				<h5>No orders yet</h5>
+				<a href="/" class="btn btn-primary mt-3">Shop Now</a>
+			</div>
+
+			<!-- Loop through orders -->
+			<div th:each="order : ${orders}" class="card shadow-sm mb-4">
+
+				<div class="card-body">
+
+					<!-- Order Header -->
+					<div class="d-flex justify-content-between align-items-center mb-3">
+						<div>
+							<p class="mb-1">
+								Order No : <strong th:text="${order.order_id}"></strong>
+							</p>
+							<p class="text-muted mb-0">
+								<span
+									th:text="${#temporals.format(order.order_date, 'EEE, dd MMM yy')}"></span>
+							</p>
+						</div>
+						<div>
+							<button type="button" class="btn btn-sm btn-outline-primary"
+								data-toggle="modal"
+								th:attr="data-target='#orderModal_' + ${order.order_id}">
+								View Details</button>
+						</div>
+					</div>
+
+
+					<!-- Order Items -->
+					<div th:each="item : ${orderItems}"
+						th:if="${item.order.order_id == order.order_id}"
+						class="mb-3 border-top pt-3">
+
+						<!-- Top Row: Status + Date + Arrow -->
+						<div
+							class="d-flex justify-content-between align-items-center mb-2">
+
+							<div>
+								<span class="fw-bold text-success"
+									th:text="${order.order_status}"> </span><br> <!-- <small
+									class="text-muted"
+									th:text="${#temporals.format(order.order_date, 'EEE, dd MMM yy')}">
+								</small> -->
+							</div>
+
+						</div>
+
+						<!-- Product Row -->
+
+
+						<div class="container">
+							<div class="row">
+								<div class="col-0">
+									<img th:src="@{${item.product.imageurl}}" class="rounded"
+										style="width: 70px; height: 70px; object-fit: cover;">
+								</div>
+								<div class="col-10">
+									<p class="mb-0" style="font-size: 14px;"
+										th:text="${item.product.product_name}"></p>
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+
+
+				<!-- Modal viewDetails -->
+				<div class="modal fade" th:id="'orderModal_' + ${order.order_id}"
+					tabindex="-1" role="dialog">
+
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content">
+
+							<div class="modal-body">
+								<h5 class="modal-title mb-1 ">Order Details</h5>
+								<div style="height: 1px; background: #ddd; margin: 8px 0 12px;"></div>
+								<!-- Shipping Address -->
+								<h6 class="fw-bold mb-2">Shipping Address</h6>
+
+								<!-- Address Details -->
+								<div class="mb-3">
+									<p class="fw-bold mb-1" th:text="${order.user.name}">Name</p>
+
+									<p class="mb-1 text-muted" style="font-size: 14px;">
+										<span th:text="${order.address}"></span>
+									</p>
+
+									<p class="mb-0 text-muted" style="font-size: 14px;">
+										Mobile No: <span th:text="${order.user.mobile}"></span>
+									</p>
+								</div>
+
+								<hr>
+
+								<!-- Order Details -->
+								<div class="mb-2">
+									<p class="mb-1">
+										<strong>Order No:</strong> <span th:text="${order.order_id}"></span>
+									</p>
+
+									<p class="mb-1">
+										<strong>Placed on:</strong> <span
+											th:text="${#temporals.format(order.order_date,'EEE, dd MMM yy, hh:mm a')}"></span>
+									</p>
+
+									<p class="mb-1">
+										<strong>Order Total:</strong> ₹<span
+											th:text="${order.total_amount}"></span>
+									</p>
+
+									<p class="mb-0">
+										<strong>Order Status:</strong> <span
+											th:text="${order.order_status}"> </span>
+									</p>
+								</div>
+
+							</div>
+
+							<!-- Body -->
+							<div class="modal-body">
+
+								<!-- Items -->
+								<div th:each="item : ${orderItems}"
+									th:if="${item.order.order_id == order.order_id}"
+									class="d-flex align-items-center mb-3 border-bottom pb-2">
+
+									<img th:src="@{${item.product.imageurl}}"
+										style="width: 60px; height: 60px; object-fit: cover; margin-right: 10px;">
+
+									<div>
+										<p class="mb-0" th:text="${item.product.product_name}"></p>
+										<small>Qty: <span th:text="${item.quantity}"></span></small><br>
+										<small>₹ <span th:text="${item.product.price}"></span></small><br>
+										<small>Size:<span th:text="${item.product.size}"></span></small>
+									</div>
+
+								</div>
+
+							</div>
+
+							<!-- Footer -->
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									data-dismiss="modal">Close</button>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</section>
+
+
+	<!-- Footer -->
+	<footer class="footer">
+		<div class="container">
+			<p>© BabyBloom</p>
+		</div>
+	</footer>
+	<script src="js/jquery-3.3.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+</body>
+</html>

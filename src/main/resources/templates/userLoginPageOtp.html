@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Login | BabyBloom</title>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<link rel="stylesheet" href="css/elegant-icons.css">
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+body {
+	background: #f8f8f8;
+	font-family: Arial;
+}
+
+.login-section {
+	padding: 80px 0;
+}
+
+.login-card {
+	width: 500px;
+	background: white;
+	padding: 40px;
+	border-radius: 8px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.login-title {
+	font-size: 28px;
+	font-weight: 600;
+	margin-bottom: 25px;
+}
+
+.form-control {
+	margin-bottom: 15px;
+}
+
+.site-btn {
+	background: #ff6b6b;
+	border: none;
+	color: white;
+	padding: 10px 25px;
+	width: 100%;
+}
+
+.register-link {
+	margin-top: 15px;
+	text-align: center;
+}
+</style>
+
+</head>
+
+<body>
+
+
+	<section class="login-section">
+		<div class="container">
+			<div class="row justify-content-center">
+
+				<div class="col-lg-4">
+
+
+
+					<div class="login-card">
+
+
+
+						<h3 class="login-title">Login</h3>
+
+						<form action="/send-otp" method="post">
+							<input type="hidden" th:name="${_csrf.parameterName}"
+								th:value="${_csrf.token}" />
+								 <input type="email"
+								class="form-control" placeholder="Enter Your Email-Id*"
+								name="email" required>
+							<button type="submit" class="site-btn">Send OTP</button>
+
+						</form>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</section>
+
+
+	<script src="js/jquery-3.3.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+
+</body>
+</html>
