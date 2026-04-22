@@ -96,7 +96,7 @@ body {
 								" name="username"
 								required> <input type="password" class="form-control"
 								placeholder="Password" name="password" required>
-
+ <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 							<button type="submit" class="site-btn">Login</button>
 
 						</form>

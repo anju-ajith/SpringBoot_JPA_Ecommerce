@@ -44,8 +44,9 @@ public class AdminController {
 		long productCount = productService.getTotalProducts();
 		long userCount = userService.getTotalUsers();
 		double totalRevenue = orderService.calculateTotalRevenue();
+		
 		List<Double> monthlyRevenue = orderService.getMonthlyRevenue();
- 			System.out.println("******************************"+monthlyRevenue);
+ 			
  			
  		m.addAttribute("productCount", productCount);	
  		m.addAttribute("productCount", productCount);

@@ -19,7 +19,7 @@ public interface OrderRepository extends JpaRepository<Orders, Integer> {
 	long count();
 
 	@Query("SELECT SUM(o.Total_amount) FROM Orders o WHERE o.Order_status = 'Delivered'")
-	double getTotalRevenue();
+	Double getTotalRevenue();
 
 	@Query("SELECT MONTH(o.Order_date), SUM(o.Total_amount) " + "FROM Orders o WHERE o.Order_status = 'Delivered' "
 			+ "GROUP BY MONTH(o.Order_date)")

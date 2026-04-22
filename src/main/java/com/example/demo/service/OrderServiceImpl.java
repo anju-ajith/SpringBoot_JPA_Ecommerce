@@ -109,8 +109,9 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public double calculateTotalRevenue() {
-		// TODO Auto-generated method stub
-		return orderRepo.getTotalRevenue();
+		Double revenue = orderRepo.getTotalRevenue();
+		double totalRevenue = (revenue != null) ? revenue : 0.0;
+		return totalRevenue;
 	}
 
 	@Override
